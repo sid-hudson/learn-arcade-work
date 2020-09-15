@@ -1,6 +1,5 @@
-def f(x):
-    x += 10
-
-x = 1
-f(x)
-print(x)
+name = "mary"
+if name.lower() == "bob" or "sam":
+    print("Yes")
+else:
+    print("No")
