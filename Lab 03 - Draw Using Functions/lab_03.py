@@ -7,14 +7,22 @@ def main():
 
 
 def draw_ground():
-    """Draw the Ground"""
+    """Draw the Ground, River, and Bunny"""
     arcade.draw_lrtb_rectangle_filled(0,500,250,0, arcade.color.AO)
-    arcade.draw_lrtb_rectangle_filled(0,500,220,0, arcade.color.BROWN_NOSE)
+    arcade.draw_polygon_filled(((150, 250),
+                                (350, 250),
+                                (325, 0),
+                                (175, 0),
+                                ),
+                               arcade.color.BLUE_SAPPHIRE)
+    arcade.draw_ellipse_filled(140, 100, 50, 20, arcade.csscolor.BROWN)
+    arcade.draw_circle_filled(160, 105, 10, arcade.csscolor.BROWN)
+    arcade.draw_ellipse_filled(157, 110, 7, 25, arcade.csscolor.BROWN)
+    arcade.draw_ellipse_filled(155, 90, 20, 5, arcade.csscolor.BROWN)
+    arcade.draw_ellipse_filled(125, 90, 20, 5, arcade.csscolor.BROWN)
+    arcade.draw_circle_filled(118, 105, 6, arcade.csscolor.WHITE)
+    arcade.draw_circle_filled(162, 107, 2, arcade.csscolor.BLACK)
 
-
-def draw_waterfall():
-    """Draw a Waterfall"""
-    arcade.draw_rectangle_filled(250, 0, 200, 500, arcade.color.BLUE_SAPPHIRE)
 
 
 def draw_forest():
@@ -32,12 +40,12 @@ def draw_forest():
 def draw_sun():
     """Draw the Sun"""
     arcade.draw_circle_filled(450, 450, 30, arcade.color.AMBER)
+    arcade.draw_circle_filled(450, 450, 25, arcade.color.CHROME_YELLOW)
+    arcade.draw_circle_filled(450, 450, 20, arcade.color.SAE)
 
 
 main()
 draw_ground()
-draw_waterfall()
-draw_forest()
 draw_forest()
 draw_sun()
 
