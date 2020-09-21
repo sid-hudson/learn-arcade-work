@@ -21,6 +21,16 @@ def main():
         if user_choice.upper() == "Q":
             done = True
             print("Thanks for playing!")
+        elif user_choice.upper() == "A":
+
+        elif user_choice.upper() == "B":
+
+        elif user_choice.upper() == "C":
+
+        elif user_choice.upper() == "D":
+            print("Your camel is happy.")
+            camel_tiredness = 0
+
         elif user_choice.upper() == "E":
             print("Miles traveled:  ", miles_traveled)
             print("Drinks in canteen:  ", thirst)
