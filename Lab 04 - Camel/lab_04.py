@@ -21,11 +21,6 @@ def main():
         if user_choice.upper() == "Q":
             done = True
             print("Thanks for playing!")
-        elif user_choice.upper() == "A":
-
-        elif user_choice.upper() == "B":
-
-        elif user_choice.upper() == "C":
 
         elif user_choice.upper() == "D":
             print("Your camel is happy.")
