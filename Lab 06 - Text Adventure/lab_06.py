@@ -32,7 +32,7 @@ def main():
     room = Room("You are in the main hall. There are three doors. "
                 "One door is on the north side of the room and seems to lead outside. "
                 "A second door is located on the south side of the room, "
-                "and the last door is located on the east side of the room.", None, 2, None, 4)
+                "and the last door is located on the east side of the room.", None, 2, 4, None)
     room_list.append(room)
 
     current_room = 0
@@ -40,39 +40,41 @@ def main():
     while not done:
         print(room_list[current_room].description)
         print()
-        user_input = input("Where do you want to go?")
-        room_choice = user_input
-    if room_choice.upper() == "North" or room_choice.upper() == "N":
-        next_room = room_list[current_room].north
-    if next_room is None:
-        print("Not this way.")
-    else:
-        current_room = next_room
+        room_choice = input("Where do you want to go? ")
+        if room_choice.upper() == "NORTH" or room_choice.upper() == "N":
+            next_room = room_list[current_room].north
+            if next_room is None:
+                print("Not this way.")
+            else:
+                current_room = next_room
 
-    if room_choice.upper() == "South" or room_choice.upper() == "S":
-        next_room = room_list[current_room].south
-    if next_room is None:
-        print("Not this way.")
-    else:
-        current_room = next_room
+        elif room_choice.upper() == "SOUTH" or room_choice.upper() == "S":
+            next_room = room_list[current_room].south
+            if next_room is None:
+                print("Not this way.")
+            else:
+                current_room = next_room
 
-    if room_choice.upper() == "East" or room_choice.upper() == "E":
-        next_room = room_list[current_room].east
-    if next_room is None:
-        print("Not this way.")
-    else:
-        current_room = next_room
+        elif room_choice.upper() == "EAST" or room_choice.upper() == "E":
+            next_room = room_list[current_room].east
+            if next_room is None:
+                print("Not this way.")
+            else:
+                current_room = next_room
 
-    if room_choice.upper() == "West" or room_choice.upper() == "W":
-        next_room = room_list[current_room].west
-    if next_room is None:
-        print("Not this way.")
-    else:
-        current_room = next_room
+        elif room_choice.upper() == "WEST" or room_choice.upper() == "W":
+            next_room = room_list[current_room].west
+            if next_room is None:
+                print("Not this way.")
+                print()
+            else:
+                current_room = next_room
 
-    if room_choice.upper() == "Quit" or room_choice.upper() == "Q":
-        done = True
-        print("Thank you for playing!")
-    else:
-        print("I don't understand.")
+        elif room_choice.upper() == "QUIT" or room_choice.upper() == "Q":
+            done = True
+            print("Thank you for playing!")
+            print()
+        else:
+            print("I don't understand.")
+            print()
 main()
