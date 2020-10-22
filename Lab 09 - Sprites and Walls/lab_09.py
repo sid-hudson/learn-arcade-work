@@ -41,6 +41,9 @@ class MyGame(arcade.Window):
         self.wall_list = arcade.SpriteList()
         self.brain_list = arcade.SpriteList()
 
+        # Score
+        self.score = 0
+
         # Set up player
         self.player_sprite = arcade.Sprite("character.png",
                                            SPRITE_SCALING)
@@ -142,10 +145,119 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
 
         # Place brains
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 425
+        brain.center_y = 450
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 275
+        brain.center_y = 475
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 400
+        brain.center_y = 275
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 275
+        brain.center_y = 325
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 275
+        brain.center_y = 100
+        self.brain_list.append(brain)
 
         brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
         brain.center_x = 425
-        brain.center_y = 300
+        brain.center_y = 100
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 550
+        brain.center_y = 100
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 600
+        brain.center_y = 275
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 735
+        brain.center_y = 350
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 1110
+        brain.center_y = 200
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 800
+        brain.center_y = 275
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 975
+        brain.center_y = 275
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 735
+        brain.center_y = 100
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 950
+        brain.center_y = 100
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 800
+        brain.center_y = 500
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 900
+        brain.center_y = 610
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 1110
+        brain.center_y = 610
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 1110
+        brain.center_y = 500
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 1110
+        brain.center_y = 400
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 950
+        brain.center_y = 400
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 600
+        brain.center_y = 500
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 500
+        brain.center_y = 610
+        self.brain_list.append(brain)
+
+        brain = arcade.Sprite("brain.png", SPRITE_SCALING_BRAIN)
+        brain.center_x = 350
+        brain.center_y = 550
         self.brain_list.append(brain)
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite,
@@ -159,6 +271,10 @@ class MyGame(arcade.Window):
         self.wall_list.draw()
         self.player_list.draw()
         self.brain_list.draw()
+
+        # Draw text
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
 
     def on_key_press(self, key, modifiers):
 
@@ -183,6 +299,15 @@ class MyGame(arcade.Window):
 
         # Call update on all sprites
         self.physics_engine.update()
+
+        # Make hit list
+        brain_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.brain_list)
+
+        # Remove collided brains
+        for brain in brain_hit_list:
+            brain.remove_from_sprite_lists()
+            self.score += 1
 
 
 def main():
