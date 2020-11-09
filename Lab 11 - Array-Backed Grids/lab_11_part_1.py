@@ -1,9 +1,3 @@
-"""
-Array Backed Grid version 2
-
-Show how to use a two-dimensional list/array to back the display of a
-grid on-screen.
-"""
 import arcade
 
 # Set how many rows and columns we will have
@@ -24,9 +18,6 @@ SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
 
 
 class MyGame(arcade.Window):
-    """
-    Main application class.
-    """
 
     def __init__(self, width, height):
         """
@@ -98,6 +89,30 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 1
             else:
                 self.grid[row][column] = 0
+
+            # Flip box under
+            if row > 0 and self.grid[row - 1][column] == 0:
+                self.grid[row - 1][column] = 1
+            elif row > 0 and self.grid[row - 1][column] == 1:
+                self.grid[row - 1][column] = 0
+
+            # Flip box over
+            if self.grid[row + 1][column] == 0:
+                self.grid[row + 1][column] = 1
+            elif row > 0 and self.grid[row + 1][column] == 1:
+                self.grid[row + 1][column] = 0
+
+            # Flip box left
+            if self.grid[row][column - 1] == 0:
+                self.grid[row][column - 1] = 1
+            elif self.grid[row][column - 1] == 1:
+                self.grid[row][column - 1] = 0
+
+            # Flip box right
+            if column < COLUMN_COUNT - 1 and self.grid[row][column + 1] == 0:
+                self.grid[row][column + 1] = 1
+            elif column < COLUMN_COUNT - 1 and self.grid[row][column + 1] == 1:
+                self.grid[row][column + 1] = 0
 
         self.create_shapes_from_grid()
 

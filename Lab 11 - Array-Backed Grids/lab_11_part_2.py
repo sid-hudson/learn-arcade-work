@@ -1,9 +1,3 @@
-"""
-Array Backed Grid version 2
-
-Show how to use a two-dimensional list/array to back the display of a
-grid on-screen.
-"""
 import arcade
 
 # Set how many rows and columns we will have
@@ -100,6 +94,37 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 0
 
         self.create_shapes_from_grid()
+
+    count = 0
+    for row in range(ROW_COUNT):
+        for column in range(COLUMN_COUNT):
+            if self.grid[row][column] == 1:
+                count += 1
+
+    print(f"There's a total of {count} cells selected.")
+
+    for row in range(ROW_COUNT):
+        row_count = 0
+        continuous_count = 0
+        for column in range(COLUMN_COUNT):
+            if self.grid[row][column] == 1:
+                row_count += 1
+                continuous_count == 1
+        if continuous_count > 2:
+            print("There are", continuous_count, "repetitive blocks selected on row", row, ".")
+            continuous_count = 0
+        print("Row", row, "has", row_count, "cells selected.")
+
+    for column in range(COLUMN_COUNT):
+        column_count = 0
+        for row in range(ROW_COUNT):
+            if self.grid[row][column] == 1:
+                column_count += 1
+                continuous_count += 1
+        if continuous_count > 2:
+            print("There are", continuous_count, "repetitive blocks selected on column", column, ".")
+            continuous_count = 0
+        print("Column", column, "has", column_count, "cells selected.")
 
 
 def main():
