@@ -97,15 +97,15 @@ class MyGame(arcade.Window):
                 self.grid[row - 1][column] = 0
 
             # Flip box over
-            if self.grid[row + 1][column] == 0:
+            if row < ROW_COUNT - 1 and self.grid[row + 1][column] == 0:
                 self.grid[row + 1][column] = 1
-            elif row > 0 and self.grid[row + 1][column] == 1:
+            elif row < ROW_COUNT - 1 and self.grid[row + 1][column] == 1:
                 self.grid[row + 1][column] = 0
 
             # Flip box left
-            if self.grid[row][column - 1] == 0:
+            if column > 0 and self.grid[row][column - 1] == 0:
                 self.grid[row][column - 1] = 1
-            elif self.grid[row][column - 1] == 1:
+            elif column > 0 and self.grid[row][column - 1] == 1:
                 self.grid[row][column - 1] = 0
 
             # Flip box right

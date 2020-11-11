@@ -18,8 +18,8 @@ def main():
 
     # Room numbers 0-5
     room_list = []
-    cell_room = Room("You are in a dark cell, there is a pile of bones laying in the center of the room."
-                     "there also seems to be a key laying in the corner of the room."
+    cell_room = Room("You are in a dark cell, there is a pile of bones laying in the center of the room.\n"
+                     "There also seems to be a key laying in the corner of the room.\n"
                      "There is one locked door to the south of the room.", None, 1, None, None)
     room_list.append(cell_room)
 
