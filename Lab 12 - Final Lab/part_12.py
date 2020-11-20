@@ -119,28 +119,28 @@ def main():
         # get user input
         user_choice = input("What would you like to do?")
         user_words = user_choice.split(" ")
-        if user_words[1].upper() == "NORTH":
+        if len(user_words) > 1 and user_words[1].upper() == "NORTH":
             next_room = room_list[current_room].north
             if next_room is None:
                 print("Not this way.")
             else:
                 current_room = next_room
 
-        elif user_words[1].upper() == "SOUTH":
+        elif len(user_words) > 1 and user_words[1].upper() == "SOUTH":
             next_room = room_list[current_room].south
             if next_room is None:
                 print("Not this way.")
             else:
                 current_room = next_room
 
-        elif user_words[1].upper() == "EAST":
+        elif len(user_words) > 1 and user_words[1].upper() == "EAST":
             next_room = room_list[current_room].east
             if next_room is None:
                 print("Not this way.")
             else:
                 current_room = next_room
 
-        elif user_words[1].upper() == "WEST":
+        elif len(user_words) > 1 and user_words[1].upper() == "WEST":
             next_room = room_list[current_room].west
             if next_room is None:
                 print("Not this way.")
@@ -152,12 +152,12 @@ def main():
         elif user_words[0].upper() == "GET":
             success = False
             for item in item_list:
-                if user_words[1].upper() == item.short_name and item.room_number == current_room:
+                if user_words[1].lower() == item.short_name and item.room_number == current_room:
                     item.room_number = -2
-                    print(f"You have picked up {item}.")
+                    print(f"You have picked up {item.short_name}.")
                     success = True
             if not success:
-                print("Error")
+                print("You can't do that")
 
         # Inventory command
         elif user_words[0].upper() == "INVENTORY":
@@ -167,51 +167,67 @@ def main():
 
         # Drop command
         elif user_words[0].upper() == "DROP":
+            success = False
             for item in item_list:
-                if user_words[1].upper() == item.short_name and item.room_number == -1:
+                if user_words[1].lower() == item.short_name and item.room_number == -1:
                     item.room_number = current_room
-                    print("You have dropped ", item, ".")
-                    return
+                    print(f"You have dropped {item.short_name}.")
+                    success = True
+            if not success:
+                print("You can't do that.")
 
         # use command
         elif user_words[0].upper() == "USE":
             for item in item_list:
                 if item.room_number == -2:
-                    if item.short_name == "steak" and current_room == 5:
+                    if item.short_name.lower() == "steak" and current_room == 5:
                         print("The dog is happy.")
-                    elif item.short_name == "knife" and current_room == 5:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "knife" and current_room == 5:
                         print("The dog is dead")
-                    elif item.short_name == "bone" and current_room == 5:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "bone" and current_room == 5:
                         print("The dog is happy")
-                    elif item.short_name == "key" and current_room == 0:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "key" and current_room == 0:
                         print("The door is now unlocked.")
-                    elif item.short_name == "bones" and current_room == 5:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "bones" and current_room == 5:
                         print("The dog is happy.")
-                    elif item.short_name == "bronze key" and current_room == 1:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "bronze key" and current_room == 1:
                         print("You opened one of the drawers")
                         bronze_key.room_number = 1
-                    elif item.short_name == "blue key" and current_room == 1:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "blue key" and current_room == 1:
                         print("You have opened one of the drawers.")
                         green_key.room_number = 1
+                        item.room_number = -1
                     # Chest commands
-                    elif item.short_name == "silver key" and current_room == 2:
+                    elif item.short_name.lower() == "silver key" and current_room == 2:
                         print("The chest unlocks slightly.")
-                    elif item.short_name == "green key" and current_room == 2:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "green key" and current_room == 2:
                         print("The chest unlocks slightly.")
-                    elif item.short_name == "black key" and current_room == 2:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "black key" and current_room == 2:
                         print("The chest unlocks slightly.")
-                    elif item.short_name == "book case" and current_room == 2:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "book case" and current_room == 2:
                         print("You find a newspapers, the headline reads 'TOWN WATER SUPPLY POISONED!'")
-                    elif item.short_name == "pie" and current_room == 3:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "pie" and current_room == 3:
                         print("Theres something in the pie!")
                         blue_key.room_number = 3
-                    elif item.short_name == "water" and current_room == 3:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "water" and current_room == 3:
                         done = True
                         print("The water was poisoned, you have died. Thank you for playing!")
-                    elif item.short_name == "gold key" and current_room == 4:
+                    elif item.short_name.lower() == "gold key" and current_room == 4:
                         print("You have opened the cupboard.")
                         black_key.room_number = 4
-                    elif item.short_name == "diamond key" and current_room == 5:
+                        item.room_number = -1
+                    elif item.short_name.lower() == "diamond key" and current_room == 5:
                         "You have unlocked the door and escaped the mansion. Congratulations!"
                         done = True
                     else:
