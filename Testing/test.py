@@ -4,15 +4,18 @@ import random
 def selection_sort(my_list):
     """ Sort a list using the selection sort """
 
+    outside_loop = 0
+    inside_loop = 0
     # Loop through the entire array
     for cur_pos in range(len(my_list)):
+        outside_loop += 1
         # Find the position that has the smallest number
         # Start with the current position
         min_pos = cur_pos
-        print("Outside Loop ran" + )
 
         # Scan left to right (end of the list)
         for scan_pos in range(cur_pos + 1, len(my_list)):
+            inside_loop += 1
 
             # Is this position smallest?
             if my_list[scan_pos] < my_list[min_pos]:
@@ -24,6 +27,9 @@ def selection_sort(my_list):
         my_list[min_pos] = my_list[cur_pos]
         my_list[cur_pos] = temp
 
+    print("The outside loop ran ", str(outside_loop), "times.")
+    print("The inside loop ran ", str(inside_loop), "times.")
+
 
 def insertion_sort(my_list):
     """ Sort a list using the insertion sort """
@@ -31,7 +37,10 @@ def insertion_sort(my_list):
     # Start at the second element (pos 1).
     # Use this element to insert into the
     # list.
+    outside_loop = 0
+    inside_loop = 0
     for key_pos in range(1, len(my_list)):
+        outside_loop += 1
 
         # Get the value of the element to insert
         key_value = my_list[key_pos]
@@ -44,15 +53,20 @@ def insertion_sort(my_list):
         while (scan_pos >= 0) and (my_list[scan_pos] > key_value):
             my_list[scan_pos + 1] = my_list[scan_pos]
             scan_pos = scan_pos - 1
+            inside_loop += 1
 
         # Everything's been moved out of the way, insert
         # the key into the correct location
         my_list[scan_pos + 1] = key_value
 
+    print("The outside loop ran ", str(outside_loop), "times.")
+    print("The inside loop ran ", str(inside_loop), "times.")
 
 # This will point out a list
 # For more information on the print formatting {:3}
 # see the chapter on print formatting.
+
+
 def print_list(my_list):
     for item in my_list:
         print(f"{item:3}", end="")
