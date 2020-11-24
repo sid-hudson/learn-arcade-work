@@ -41,6 +41,10 @@ class Enemy:
 
 def main():
 
+    silver_lock = False
+    green_lock = False
+    black_lock = False
+
     # Room numbers 0-5
     room_list = []
     cell_room = Room("You are in a dark damp cell.\n"
@@ -151,6 +155,9 @@ def main():
         # get user input
         user_choice = input("What would you like to do? ")
         user_words = user_choice.split(" ")
+        if len(user_words) > 2:
+            user_words[1] = user_words[1] + " " + user_words[2]
+
         if len(user_words) > 1 and user_words[1].upper() == "NORTH":
             next_room = room_list[current_room].north
             if next_room is None:
@@ -219,56 +226,82 @@ def main():
 
         # use command
         elif user_words[0].upper() == "USE":
+            if len(user_words) == 1:
+                print("What do you want to use? ")
+                continue
+
+            if item.short_name.lower() == "bookcase" and current_room == 2:
+                print("You find a newspapers, the headline reads 'TOWN WATER SUPPLY POISONED!'")
+                continue
+
+            elif item.short_name.lower() == "pie" and current_room == 3:
+                print("Theres something in the pie!")
+                blue_key.room_number = 3
+                continue
+
+            elif item.short_name.lower() == "water" and current_room == 3:
+                done = True
+                print("The water was poisoned, you have died. Thank you for playing!")
+                continue
+
+            has_item = False
             for item in item_list:
-                if item.room_number == -2:
-                    if item.short_name.lower() == "steak" and current_room == 5:
-                        print("The dog is happy.")
-                        item.room_number = -1
-                        dog.room_number = -1
-                    elif item.short_name.lower() == "bone" and current_room == 5:
-                        print("The dog is happy")
-                        item.room_number = -1
-                        dog.room_number = -1
-                    elif item.short_name.lower() == "key" and current_room == 0:
-                        print("The door is now unlocked.")
-                        item.room_number = -1
-                    elif item.short_name.lower() == "bronze key" and current_room == 1:
-                        print("You opened one of the drawers")
-                        bronze_key.room_number = 1
-                        item.room_number = -1
-                    elif item.short_name.lower() == "blue key" and current_room == 1:
-                        print("You have opened one of the drawers.")
-                        green_key.room_number = 1
-                        item.room_number = -1
-                    # Chest commands
-                    elif item.short_name.lower() == "silver key" and current_room == 2:
-                        print("The chest unlocks slightly.")
-                        item.room_number = -1
-                    elif item.short_name.lower() == "green key" and current_room == 2:
-                        print("The chest unlocks slightly.")
-                        item.room_number = -1
-                    elif item.short_name.lower() == "black key" and current_room == 2:
-                        print("The chest unlocks slightly.")
-                        item.room_number = -1
-                    elif item.short_name.lower() == "gold key" and current_room == 4:
-                        print("You have opened the cupboard.")
-                        black_key.room_number = 4
-                        item.room_number = -1
-                    elif item.short_name.lower() == "diamond key" and current_room == 5:
-                        "You have unlocked the door and escaped the mansion. Congratulations!"
-                        done = True
-                    else:
-                        print("You can't do that.")
-                # Using an item that is not in your inventory
-                elif item.room_number == current_room:
-                    if item.short_name.lower() == "bookcase" and current_room == 2:
-                        print("You find a newspapers, the headline reads 'TOWN WATER SUPPLY POISONED!'")
-                    elif item.short_name.lower() == "pie" and current_room == 3:
-                        print("Theres something in the pie!")
-                        blue_key.room_number = 3
-                    elif item.short_name.lower() == "water" and current_room == 3:
-                        done = True
-                        print("The water was poisoned, you have died. Thank you for playing!")
+                if item.room_number == -2 and user_words[1].lower() == item.short_name:
+                    has_item = True
+            if not has_item:
+                print("You don't have that.")
+                continue
+
+            if item.short_name.lower() == "steak" and current_room == 5:
+                print("The dog is happy.")
+                item.room_number = -1
+                dog.room_number = -1
+            elif item.short_name.lower() == "bone" and current_room == 5:
+                print("The dog is happy")
+                item.room_number = -1
+                dog.room_number = -1
+            elif item.short_name.lower() == "key" and current_room == 0:
+                print("The door is now unlocked.")
+                item.room_number = -1
+            elif item.short_name.lower() == "bronze key" and current_room == 1:
+                print("You opened one of the drawers")
+                bronze_key.room_number = 1
+                item.room_number = -1
+            elif item.short_name.lower() == "blue key" and current_room == 1:
+                print("You have opened one of the drawers.")
+                green_key.room_number = 1
+                item.room_number = -1
+
+            # Chest commands
+            elif item.short_name.lower() == "silver key" and current_room == 2:
+                silver_lock = True
+                item.room_number = -1
+                print("You unlocked the silver lock!")
+
+            elif item.short_name.lower() == "green key" and current_room == 2:
+                green_lock = True
+                item.room_number = -1
+                print("You have unlocked the green lock!")
+
+            elif item.short_name.lower() == "black key" and current_room == 2:
+                black_lock = True
+                item.room_number = -1
+                print("You unlocked the black lock!")
+
+            elif black_lock == True and green_lock == True and black_lock == True:
+                chest.room_number = -1
+                diamond_key.room_number = 2
+                print("You have unlocked the chest!")
+
+            elif item.short_name.lower() == "gold key" and current_room == 4:
+                print("You have opened the cupboard.")
+                black_key.room_number = 4
+                item.room_number = -1
+            elif item.short_name.lower() == "diamond key" and current_room == 5:
+                "You have unlocked the door and escaped the mansion. Congratulations!"
+                done = True
+            else:
+                print("You can't do that.")
 
             for weapon in weapon_list:
                 if weapon.room_number == -2:
