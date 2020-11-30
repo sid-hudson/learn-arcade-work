@@ -9,24 +9,17 @@ class Room:
 
 
 class Item:
-    def __init__(self, room_number, long_description, short_name):
+    def __init__(self, room_number, long_description, short_name, weapon_damage = 0):
         self.room_number = room_number
         self.long_description = long_description
         self.short_name = short_name
+        self.weapon_damage = weapon_damage
 
 
 class User:
     def __init__(self, max_hit_points, current_hit_points):
         self.max_hit_points = 10
         self.current_hit_points = 10
-
-
-class Weapon:
-    def __init__(self, room_number, long_description, short_name, weapon_damage):
-        self.room_number = room_number
-        self.long_description = long_description
-        self.short_name = short_name
-        self.weapon_damage = weapon_damage
 
 
 class Enemy:
@@ -48,7 +41,7 @@ def main():
     # Room numbers 0-5
     room_list = []
     cell_room = Room("You are in a dark damp cell.\n"
-                     "There is one door on the south side of the room.", None, 1, None, None)
+                     "There is one door on the south side of the room, it is currently locked.", None, None, None, None)
     room_list.append(cell_room)
 
     dungeon_room = Room("You are in what seems to look like the dungeon room.\n"
@@ -126,13 +119,8 @@ def main():
     black_key = Item(4, "Inside the cupboard is a key with black tape on it.", "black key")
     item_list.append(black_key)
 
-    door = Item(5, "A locked door, it might lead outside.", "door")
-    item_list.append(door)
-
-    # Weapon list
-    weapon_list = []
-    knife = Weapon(4, "on the counter there is a sharp knife.", "knife", random.randrange(3, 7))
-    weapon_list.append(knife)
+    knife = Item(4, "on the counter there is a sharp knife.", "knife", random.randrange(3, 7))
+    item_list.append(knife)
 
     # Enemy List
     enemy_list = []
@@ -155,6 +143,8 @@ def main():
         # get user input
         user_choice = input("What would you like to do? ")
         user_words = user_choice.split(" ")
+
+        # Get direction
         if len(user_words) > 2:
             user_words[1] = user_words[1] + " " + user_words[2]
 
@@ -190,20 +180,21 @@ def main():
         # Get command
         elif user_words[0].upper() == "GET":
             success = False
+
+            # Item get command
             for item in item_list:
                 if user_words[1].lower() == item.short_name and item.room_number == current_room:
                     item.room_number = -2
                     print(f"You have picked up {item.short_name}.")
                     success = True
-            for weapon in weapon_list:
-                if user_words[1].lower() == weapon.short_name and weapon.room_number == current_room:
-                    weapon.room_number = -2
-                    success = True
+
             if not success:
                 print("You can't do that")
 
         # Inventory command
         elif user_words[0].upper() == "INVENTORY":
+
+            # Item inventory
             for item in item_list:
                 if item.room_number == -2:
                     print(item.short_name)
@@ -211,16 +202,14 @@ def main():
         # Drop command
         elif user_words[0].upper() == "DROP":
             success = False
+
+            # Item drop command
             for item in item_list:
                 if user_words[1].lower() == item.short_name and item.room_number == -1:
                     item.room_number = current_room
                     print(f"You have dropped {item.short_name}.")
                     success = True
-            for weapon in weapon_list:
-                if user_words[1].lower() == weapon.short_name and weapon.room_number == -1:
-                    weapon.room_number = current_room
-                    print(f"You have dropped {weapon.short_name}.")
-                    success = True
+
             if not success:
                 print("You can't do that.")
 
@@ -230,6 +219,7 @@ def main():
                 print("What do you want to use? ")
                 continue
 
+            # Item use command in room
             if item.short_name.lower() == "bookcase" and current_room == 2:
                 print("You find a newspapers, the headline reads 'TOWN WATER SUPPLY POISONED!'")
                 continue
@@ -245,13 +235,16 @@ def main():
                 continue
 
             has_item = False
+
+            # Item use command
             for item in item_list:
                 if item.room_number == -2 and user_words[1].lower() == item.short_name:
                     has_item = True
+                    break
             if not has_item:
                 print("You don't have that.")
                 continue
-
+            print(item.short_name.lower(), current_room)
             if item.short_name.lower() == "steak" and current_room == 5:
                 print("The dog is happy.")
                 item.room_number = -1
@@ -263,6 +256,9 @@ def main():
             elif item.short_name.lower() == "key" and current_room == 0:
                 print("The door is now unlocked.")
                 item.room_number = -1
+                room_list[0].south = 1
+                room_list[0].description = "You are in a dark damp cell.\n" +\
+                                           "There is one door on the south side of the room, it is currently locked."
             elif item.short_name.lower() == "bronze key" and current_room == 1:
                 print("You opened one of the drawers")
                 bronze_key.room_number = 1
@@ -288,7 +284,7 @@ def main():
                 item.room_number = -1
                 print("You unlocked the black lock!")
 
-            elif black_lock == True and green_lock == True and black_lock == True:
+            elif silver_lock == True and green_lock == True and black_lock == True:
                 chest.room_number = -1
                 diamond_key.room_number = 2
                 print("You have unlocked the chest!")
@@ -300,15 +296,12 @@ def main():
             elif item.short_name.lower() == "diamond key" and current_room == 5:
                 "You have unlocked the door and escaped the mansion. Congratulations!"
                 done = True
+
+            elif item.short_name.lower() == "knife" and current_room == 5:
+                print(f"You have done {knife.weapon_damage} damage to the dog")
+
             else:
                 print("You can't do that.")
-
-            for weapon in weapon_list:
-                if weapon.room_number == -2:
-                    if weapon.short_name.lower() == "knife" and current_room == 5:
-                        print(f"You have done {knife.weapon_damage} damage to the dog")
-                else:
-                    print("You can't do that.")
 
         elif user_choice.upper() == "QUIT":
             done = True
