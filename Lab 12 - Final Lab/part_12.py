@@ -1,3 +1,6 @@
+"""
+Escape The Dungeon Manor
+"""
 import random
 
 
@@ -11,7 +14,7 @@ class Room:
 
 
 class Item:
-    def __init__(self, room_number, long_description, short_name, weapon_damage = 0):
+    def __init__(self, room_number, long_description, short_name, weapon_damage=0):
         self.room_number = room_number
         self.long_description = long_description
         self.short_name = short_name
@@ -20,8 +23,8 @@ class Item:
 
 class User:
     def __init__(self, max_hit_points, current_hit_points):
-        self.max_hit_points = 10
-        self.current_hit_points = 10
+        self.max_hit_points = max_hit_points
+        self.current_hit_points = current_hit_points
 
 
 class Enemy:
@@ -57,8 +60,8 @@ def main():
     room_list.append(dungeon_room)
 
     hallway = Room("You are in the hallway. There are three doorways, one on the west side of the room,\n"
-                   "one door leads north of the room, and the other door is on the east side of the room."
-                   , 5, None, 3, 1)
+                   "one door leads north of the room, and the other door is on the east side of the room.",
+                   5, None, 3, 1)
     room_list.append(hallway)
 
     dinning_room = Room("You are in the dinning room.\n"
@@ -70,8 +73,8 @@ def main():
 
     kitchen = Room("You are in the kitchen. There are two doors in this room.\n"
                    "One is on the South side of the room and the other door leads to the West.\n"
-                   "There is also a cupboard that seems to be locked."
-                   , None, 3, None, 5)
+                   "There is also a cupboard that seems to be locked.",
+                   None, 3, None, 5)
     room_list.append(kitchen)
 
     great_hall = Room("You are in the great hall. In this room there are three door ways.\n"
@@ -101,8 +104,8 @@ def main():
 
     bookcase = Item(2, "There is also bookcase filled with books and newspapers. \n"
                        "In front of the bookcase is a small table with a chest on it. \n"
-                       "This chest has three locks on it: a silver lock, a green lock, and a black lock."
-                       , "bookcase")
+                       "This chest has three locks on it: a silver lock, a green lock, and a black lock.",
+                       "bookcase")
     item_list.append(bookcase)
 
     diamond_key = Item(-1, "Inside the chest there is a diamond encrusted key", "diamond key")
@@ -227,6 +230,12 @@ def main():
                 continue
 
             # Item use command in room
+            for item in item_list:
+                if user_words[1].lower() == item.short_name:
+                    break
+            if user_words[1].lower() != item.short_name:
+                print("You can't do that.")
+                continue
             if item.room_number == current_room:
                 if item.short_name.lower() == "bookcase" and current_room == 2:
                     print("You find a newspapers, the headline reads 'TOWN WATER SUPPLY POISONED!'")
@@ -278,6 +287,13 @@ def main():
                                            "The desk has one drawer that is locked.\n" +\
                                            "There is a door to the north of the room and stairs " \
                                            "that lead up to a door east of the room."
+
+                if bronze_lock and blue_lock:
+                    room_list[1].description = "You are in what seems to be a dungeon room.\n" + \
+                                               "There is a desk in the center of the room. \n" + \
+                                               "There is a door to the north of the room and stairs " \
+                                               "that lead up to a door east of the room."
+
             elif item.short_name.lower() == "blue key" and current_room == 1:
                 print("You have opened one of the drawers.")
                 green_key.room_number = 1
@@ -288,11 +304,11 @@ def main():
                                            "The desk has one drawer that is locked.\n" + \
                                            "There is a door to the north of the room and stairs " \
                                            "that lead up to a door east of the room."
-            elif bronze_lock == True and blue_lock == True:
-                room_list[1].description = "You are in what seems to be a dungeon room.\n" + \
-                                           "There is a desk in the center of the room. \n" + \
-                                           "There is a door to the north of the room and stairs " \
-                                           "that lead up to a door east of the room."
+                if bronze_lock and blue_lock:
+                    room_list[1].description = "You are in what seems to be a dungeon room.\n" + \
+                                               "There is a desk in the center of the room. \n" + \
+                                               "There is a door to the north of the room and stairs " \
+                                               "that lead up to a door east of the room."
 
             # Chest commands
             elif item.short_name.lower() == "silver key" and current_room == 2:
@@ -300,19 +316,27 @@ def main():
                 item.room_number = -1
                 print("You unlocked the silver lock!")
 
+                if silver_lock and green_lock and black_lock:
+                    diamond_key.room_number = 2
+                    print("You unlocked the chest!")
+
             elif item.short_name.lower() == "green key" and current_room == 2:
                 green_lock = True
                 item.room_number = -1
                 print("You have unlocked the green lock!")
+
+                if silver_lock and green_lock and black_lock:
+                    diamond_key.room_number = 2
+                    print("You unlocked the chest!")
 
             elif item.short_name.lower() == "black key" and current_room == 2:
                 black_lock = True
                 item.room_number = -1
                 print("You unlocked the black lock!")
 
-            elif silver_lock == True and green_lock == True and black_lock == True:
-                diamond_key.room_number = 2
-                print("You unlocked the chest!")
+                if silver_lock and green_lock and black_lock:
+                    diamond_key.room_number = 2
+                    print("You unlocked the chest!")
 
             elif item.short_name.lower() == "gold key" and current_room == 4:
                 print("You opened the cupboard.")
@@ -324,7 +348,7 @@ def main():
                                            "There is also a cupboard."
 
             elif item.short_name.lower() == "diamond key" and current_room == 5:
-                "You have unlocked the door and escaped the mansion. Congratulations!"
+                print("You have unlocked the door and escaped the mansion. Congratulations!")
                 done = True
 
             elif item.short_name.lower() == "knife" and current_room == 5 and dog.room_number == current_room:
